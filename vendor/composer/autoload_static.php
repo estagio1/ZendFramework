@@ -344,7 +344,7 @@ class ComposerStaticInitb73d2cc505a15ff929aa45b760401c38
         ),
         'Album\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/module/Album/src',
+            0 => __DIR__ . '/../..' . '/module/Album/src/Album',
         ),
     );
 

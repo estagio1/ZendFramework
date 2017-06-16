@@ -31,6 +31,22 @@ return [
             ],
         ],
     ],
+    'doctrine' => array(
+	'driver' => array(
+            __NAMESPACE__ . '_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+//                'paths' => array(__DIR__ . '/../src/Model')
+                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Model')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+//                    __NAMESPACE__ . '\Model' => __NAMESPACE__ . '_driver'
+                    __NAMESPACE__ . '\Model' => __NAMESPACE__ . '_driver'
+                ),
+            ),
+        ),
+    ),     
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,

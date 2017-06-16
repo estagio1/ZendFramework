@@ -66,5 +66,5 @@ return array(
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Application\\' => array($baseDir . '/module/Application/src'),
     'ApplicationTest\\' => array($baseDir . '/module/Application/test'),
-    'Album\\' => array($baseDir . '/module/Album/src'),
+    'Album\\' => array($baseDir . '/module/Album/src/Album'),
 );

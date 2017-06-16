@@ -9,24 +9,25 @@ namespace Album\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Album\Service\AlbumService;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        $albums = [
-            [
-                'title' => 'Musica',
-                'artist' => 'Artista',
-                'id' => 1
-            ]
-        ];
-        return new ViewModel(['albums' => $albums]);
+        $albumService = new AlbumService(
+                    $this->getEvent()->getApplication()->getServiceManager());
+        
+        $list = $albumService->buscarTodos();
+//        die;
+        
+        return new ViewModel(['albums' => $list]);
     }
 
     public function addAction()
     {
-        
+        $albumService = new \Album\Sevice\AlbumService(
+        $this->getEvent()->getApplication()->getServiceManager());
     }
 
     public function editAction()
