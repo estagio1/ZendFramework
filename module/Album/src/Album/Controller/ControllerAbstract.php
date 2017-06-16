@@ -48,12 +48,24 @@ abstract class ControllerAbstract extends AbstractActionController{
                 $service = $this->getServiceLocator()->get($this->service);
                 
                 if($service->save($request->getPost()->toArray())){
-                    echo "Salvo";exit;
+                    $this->flashMessenger()->addSucessMessage('Cadastrado com sucesso!');
+                } else {
+                    $this->flashMessenger()->addErrorMessage('Não foi possivel cadastrar! Tente mais tarde.');
                 }
+                return $this->redirect()->toRoute($this->route, array('controller' => $this->controller));
             }
         }
-        
-        return new ViewModel(['form' => $form])
+        if($this->flashMessenger()->hasSuccessMensages()){
+            return new ViewModel([
+                'form' => $form,
+                'success' => $this->flashMessenger()->getSuccessMessages()]);
+        }
+        if($this->flashMessenger()->hasErrorMensages()){
+            return new ViewModel([
+                'form' => $form,
+                'success' => $this->flashMessenger()->getErrorMessages()]);
+        }
+        return new ViewModel(['form' => $form]);
     }
     /**
      * Editar um registro
