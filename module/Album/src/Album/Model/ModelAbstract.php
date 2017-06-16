@@ -4,7 +4,7 @@ namespace Album\Model;
 
 use Zend\Hydrator\ClassMethods;
 
-class ModelAbstract {
+abstract class ModelAbstract {
     /**
      * 
      * @param array $data
