@@ -35,7 +35,25 @@ abstract class ControllerAbstract extends AbstractActionController{
      * @return array|void
      */
     public function inserirAction(){
+        if(is_string($this->form)){
+            $form = new $this->form;
+        } else {
+            $form = $this->form;
+        }
+        $request = $this->getRequest();
         
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $service = $this->getServiceLocator()->get($this->service);
+                
+                if($service->save($request->getPost()->toArray())){
+                    echo "Salvo";exit;
+                }
+            }
+        }
+        
+        return new ViewModel(['form' => $form])
     }
     /**
      * Editar um registro
