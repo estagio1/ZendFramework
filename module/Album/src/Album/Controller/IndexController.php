@@ -26,17 +26,18 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
-        $albumService = new \Album\Sevice\AlbumService(
-        $this->getEvent()->getApplication()->getServiceManager());
+//        $albumService = new \Album\Sevice\AlbumService(
+//        $this->getEvent()->getApplication()->getServiceManager());
+        return new ViewModel();
     }
 
     public function editAction()
     {
-        
+        return new ViewModel();
     }
 
     public function deleteAction()
     {
-       
+        return new ViewModel();
     }
 }

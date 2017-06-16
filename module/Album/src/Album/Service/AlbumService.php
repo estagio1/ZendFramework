@@ -13,11 +13,10 @@ class AlbumService {
         $this->serviceLocator = $serviceLocator;
     }
     
-    public function salvarAlbum(){
+    public function salvarAlbum(array $data){
         /**
          * @var $albumDao \Doctrine\ORM\EntityRepository 
          */
-        $data = array();
         $em = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
         $albumDao = $em->getRepository($this->entity);
         return $albumDao->save(new Album($data));
