@@ -6,6 +6,8 @@ namespace Album\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Doctrine\ORM\EntityManager;
 use Zend\View\Model\ViewModel;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\ArrayAdapter;
 
 abstract class ControllerAbstract extends AbstractActionController{
     
@@ -23,8 +25,10 @@ abstract class ControllerAbstract extends AbstractActionController{
      */
     public function indexAction() {
         $list = $this->getEm()->getRepository($this->entity)->findAll();
-        
-        return new ViewModel(['data' => $list]);
+        $page = $this->params()->fromRoute('page');
+        $paginator = new Paginator(new ArrayAdapter($list));
+        $paginator->setCurrentPageNumber($page)->setDefaultItemCountPerPage(10);
+        return new ViewModel(['data' => $paginator, 'page' => $page]);
     }
     /**
      * Inserir um registro
