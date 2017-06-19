@@ -70,7 +70,7 @@ abstract class ControllerAbstract extends AbstractActionController{
         return new ViewModel(['form' => $form]);
     }
     /**
-     * Editar um registro
+     * Editar um registro implementado
      * @return array|void
      */
     public function editarAction(){
@@ -84,6 +84,16 @@ abstract class ControllerAbstract extends AbstractActionController{
         $repository = $this->getEm()->getRepository($this->entity)->findOneBy($param);
         
         if($repository){
+            
+            $arranjo = array();
+            foreach ($repository->toArray() as $key => $value){
+                if($value instanceof \DateTime){
+                    $arranjo[$key] = $value->format("d/m/y");
+                } else {
+                    $arranjo[$key] = $value;
+                }
+            }
+            $form->setData($request->getPost());
             if($request->isPost()){
                 $form->setData($request->getPost());
                 if($form->isValid()){
@@ -112,7 +122,7 @@ abstract class ControllerAbstract extends AbstractActionController{
         if($this->flashMessenger()->hasErrorMensages()){
             return new ViewModel([
                 'form' => $form,
-                'success' => $this->flashMessenger()->getErrorMessages(),
+                'error' => $this->flashMessenger()->getErrorMessages(),
                 'id' => $param]);
         }
         if($this->flashMessenger()->hasInfoMensages()){
@@ -122,7 +132,7 @@ abstract class ControllerAbstract extends AbstractActionController{
                 'id' => $param]);
         }
         $this->flashMessenger()->clearMessages();
-        return new ViewModel(['form' => $form]);
+        return new ViewModel(['form' => $form, 'id' => $param]);
     }
     /**
      * Excluir um registro
