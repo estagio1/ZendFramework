@@ -139,7 +139,14 @@ abstract class ControllerAbstract extends AbstractActionController{
      * @return array|void
      */
     public function excluirAction(){
-        
+        $service = $this->getServiceLocator()->get($this->service);
+        $id = $this->params()->fromRoute('id', 0);
+        if($service->remove(['id', $id])){
+            $this->flashMessenger()->addSuccessMessage('Registro deletado com sucesso!');
+        } else {
+            $this->flashMessenger()->addErrorMessage('Não foi possivel deletar o registro!');
+        }
+        return $this->redirect()->toRoute($this->route, ['controller', $this->controller]);
     }
     /**
      * 
