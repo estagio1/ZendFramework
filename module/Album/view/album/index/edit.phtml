@@ -1,4 +1,4 @@
-<h1> ADD</h1>
+<h1> Edit</h1>
 <?php
 /**
  * @var $form \Zend\Form\Form
@@ -7,7 +7,7 @@ $this->formElementErrors()
     ->setMessageOpenFormat('<div class="alert alert-error"><button type"button" class="close" data-dismiss="alert">x</button>')
     ->setMessageCloseString('</div>')
     ->render($form);
-$form->setAttribute('action', $this->url('album', ['controller' => 'album','action' => 'add']));
+$form->setAttribute('action', $this->url('album', ['controller' => 'album','action' => 'edit', 'id' => $id]));
 $form->prepare();
 echo $this->form()->openTag($form);
 

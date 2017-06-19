@@ -3,7 +3,7 @@
 namespace Album\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Album\Model\ModelAbstract;
 /**
  * Album
  *
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Album\Model\AlbumDao")
  */
-class Album
+class Album extends ModelAbstract
 {
     /**
      * @var integer

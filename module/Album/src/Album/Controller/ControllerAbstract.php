@@ -17,7 +17,9 @@ abstract class ControllerAbstract extends AbstractActionController{
     protected $route;
     protected $service;
     protected $form;
-    
+    protected $serviceLocator;
+
+
     abstract function __construct();
     /**
      * Listar Resultados
@@ -34,7 +36,7 @@ abstract class ControllerAbstract extends AbstractActionController{
      * Inserir um registro
      * @return array|void
      */
-    public function inserirAction(){
+    public function addAction(){
         if(is_string($this->form)){
             $form = new $this->form;
         } else {
@@ -45,9 +47,10 @@ abstract class ControllerAbstract extends AbstractActionController{
         if($request->isPost()){
             $form->setData($request->getPost());
             if($form->isValid()){
-                $service = $this->getServiceLocator()->get($this->service);
-                
-                if($service->save($request->getPost()->toArray())){
+                $this->serviceLocator = $this->getEvent()->getApplication()->getServiceManager();
+                $service = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
+                $albumDao = $service->getRepository($this->entity);
+                if($albumDao->save(new Album($request->getPost()->toArray()))){
                     $this->flashMessenger()->addSucessMessage('Cadastrado com sucesso!');
                 } else {
                     $this->flashMessenger()->addErrorMessage('Não foi possivel cadastrar! Tente mais tarde.');
@@ -55,12 +58,12 @@ abstract class ControllerAbstract extends AbstractActionController{
                 return $this->redirect()->toRoute($this->route, array('controller' => $this->controller));
             }
         }
-        if($this->flashMessenger()->hasSuccessMensages()){
+        if($this->flashMessenger()->hasSuccessMessages()){
             return new ViewModel([
                 'form' => $form,
                 'success' => $this->flashMessenger()->getSuccessMessages()]);
         }
-        if($this->flashMessenger()->hasErrorMensages()){
+        if($this->flashMessenger()->hasErrorMessages()){
             return new ViewModel([
                 'form' => $form,
                 'success' => $this->flashMessenger()->getErrorMessages()]);
@@ -113,19 +116,19 @@ abstract class ControllerAbstract extends AbstractActionController{
             return $this->redirect()->toRoute($this->route, array('controller' => $this->controller));
         }
         
-        if($this->flashMessenger()->hasSuccessMensages()){
+        if($this->flashMessenger()->hasSuccessMessages()){
             return new ViewModel([
                 'form' => $form,
                 'success' => $this->flashMessenger()->getSuccessMessages(),
                 'id' => $param]);
         }
-        if($this->flashMessenger()->hasErrorMensages()){
+        if($this->flashMessenger()->hasErrorMessages()){
             return new ViewModel([
                 'form' => $form,
                 'error' => $this->flashMessenger()->getErrorMessages(),
                 'id' => $param]);
         }
-        if($this->flashMessenger()->hasInfoMensages()){
+        if($this->flashMessenger()->hasInfoMessages()){
             return new ViewModel([
                 'form' => $form,
                 'warning' => $this->flashMessenger()->getInfoMessages(),
